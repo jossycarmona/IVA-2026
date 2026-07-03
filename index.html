@@ -3,26 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard IVA — Deviart · Junio 2026</title>
+<title>Dashboard IVA — Deviart · JULIO 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-         background:#f0f4f8; color:#1e293b; line-height:1.5; padding:0 0 60px; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; background:#f0f4f8; color:#1e293b; line-height:1.5; padding:0 0 60px; }
   .wrap { max-width:1180px; margin:0 auto; padding:0 20px; }
   header.top { background:linear-gradient(135deg,#0f172a,#1e3a5f); color:#fff; padding:32px 0 28px; }
   header.top .wrap { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; }
   header.top h1 { font-size:26px; font-weight:700; }
   header.top .sub { color:#cbd5e1; font-size:14px; margin-top:4px; }
   header.top .fecha { color:#94a3b8; font-size:13px; text-align:right; }
-  .badge-period { display:inline-block; background:#f59e0b; color:#1e293b; font-weight:700;
-                   padding:4px 12px; border-radius:20px; font-size:13px; margin-top:8px; }
-  .nota { background:#fff7ed; border:1px solid #fed7aa; border-left:4px solid #f59e0b;
-          border-radius:8px; padding:14px 18px; margin:22px 0; font-size:13.5px; color:#7c2d12; }
+  .badge-period { display:inline-block; background:#f59e0b; color:#1e293b; font-weight:700; padding:4px 12px; border-radius:20px; font-size:13px; margin-top:8px; }
+  .nota { background:#fff7ed; border:1px solid #fed7aa; border-left:4px solid #f59e0b; border-radius:8px; padding:14px 18px; margin:22px 0; font-size:13.5px; color:#7c2d12; }
   .grid { display:grid; gap:18px; }
   .kpis { grid-template-columns:repeat(4,1fr); margin-top:22px; }
-  .kpi { background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.08);
-         border-left:5px solid #94a3b8; }
+  .kpi { background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.08); border-left:5px solid #94a3b8; }
   .kpi .lbl { font-size:12.5px; color:#64748b; text-transform:uppercase; letter-spacing:.4px; font-weight:600; }
   .kpi .val { font-size:25px; font-weight:700; margin-top:6px; }
   .kpi .meta { font-size:12px; color:#94a3b8; margin-top:5px; }
@@ -30,8 +26,7 @@
   .kpi.egr { border-left-color:#2563eb; } .kpi.egr .val { color:#2563eb; }
   .kpi.dif { border-left-color:#f59e0b; } .kpi.dif .val { color:#d97706; }
   .kpi.iva { border-left-color:#dc2626; } .kpi.iva .val { color:#dc2626; }
-  h2.sec { font-size:18px; margin:34px 0 14px; padding-bottom:8px; border-bottom:2px solid #e2e8f0;
-           display:flex; align-items:center; gap:8px; }
+  h2.sec { font-size:18px; margin:34px 0 14px; padding-bottom:8px; border-bottom:2px solid #e2e8f0; display:flex; align-items:center; gap:8px; }
   .banks { grid-template-columns:1fr 1fr; }
   .bank { background:#fff; border-radius:12px; padding:22px; box-shadow:0 1px 3px rgba(0,0,0,.08); border-top:4px solid; }
   .bank.bbva { border-top-color:#004481; } .bank.sant { border-top-color:#EC0000; }
@@ -40,7 +35,7 @@
   .line { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px dashed #e2e8f0; font-size:14px; }
   .line:last-child { border-bottom:none; }
   .line .v { font-weight:600; } .line.sub { font-size:12.5px; color:#64748b; padding-left:14px; }
-  .pos { color:#16a34a; } .neg { color:#2563eb; }
+  .pos { color:#16a34a; } .neg { color:#dc2626; }
   .charts { grid-template-columns:1fr 1fr; }
   .card { background:#fff; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
   .card h3 { font-size:15px; margin-bottom:12px; color:#334155; }
@@ -63,14 +58,12 @@
   .alert { padding:14px 0; border-bottom:1px solid #f1f5f9; display:flex; gap:12px; align-items:flex-start; font-size:13.5px; }
   .alert:last-child { border-bottom:none; }
   .alert .ic { font-size:18px; } .alert b { color:#0f172a; }
-  .tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:0; }
-  .tab-btn { background:#e2e8f0; border:none; padding:10px 16px; border-radius:8px 8px 0 0; cursor:pointer;
-             font-size:13px; font-weight:600; color:#475569; }
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; }
+  .tab-btn { background:#e2e8f0; border:none; padding:10px 16px; border-radius:8px 8px 0 0; cursor:pointer; font-size:13px; font-weight:600; color:#475569; }
   .tab-btn.active { background:#fff; color:#0f172a; box-shadow:0 -2px 4px rgba(0,0,0,.04); }
   .tab-btn .badge { background:#cbd5e1; border-radius:10px; padding:1px 7px; font-size:11px; margin-left:4px; }
   .tab-btn.active .badge { background:#1e3a5f; color:#fff; }
-  .tab-pane { display:none; background:#fff; border-radius:0 12px 12px 12px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,.08);
-              max-height:460px; overflow-y:auto; }
+  .tab-pane { display:none; background:#fff; border-radius:0 12px 12px 12px; padding:14px; box-shadow:0 1px 3px rgba(0,0,0,.08); max-height:460px; overflow-y:auto; }
   .tab-pane.active { display:block; }
   table.detalle th, table.detalle td { padding:6px 9px; border-bottom:1px solid #f1f5f9; }
   table.detalle th { position:sticky; top:0; background:#f8fafc; font-size:11px; text-transform:uppercase; color:#64748b; }
@@ -82,557 +75,163 @@
 </style>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <div>
-      <h1>Dashboard IVA — Ingresos vs Egresos</h1>
-      <div class="sub">Deviart SA de CV · BBVA + Santander</div>
-      <div class="badge-period">📅 JUNIO 2026 (acumulado al 29/06/2026)</div>
-    </div>
-    <div class="fecha">Generado: 29/06/2026<br>Para: Dirección General</div>
-  </div>
-</header>
+<header class="top"><div class="wrap">
+  <div><h1>Dashboard IVA — Ingresos vs Egresos</h1><div class="sub">Deviart SA de CV · BBVA + Santander</div>
+    <div class="badge-period">📅 JULIO 2026 (acumulado al 03/07/2026)</div></div>
+  <div class="fecha">Generado: 03/07/2026<br>Para: Dirección General</div>
+</div></header>
 
 <div class="wrap">
-  <div class="nota">
-    <b>Nota metodológica.</b> Estimación interna de IVA con tasa 16% sobre montos con IVA incluido
-    (factor 16/116). Las cifras salen de los movimientos bancarios de BBVA y Santander (ingresos = hoja
-    del mes; egresos = hoja PROVEEDORES), acumulado del mes a la fecha. Los <b>movimientos financieros</b>
-    (rescate/compra de fondos, reparto de dividendos, devoluciones, impuestos, nómina) <b>no generan IVA</b>
-    y se excluyen de la base gravable. <b>No sustituye la declaración fiscal oficial</b> — confirmar con el contador.
-  </div>
+  <div class="nota"><b>Nota metodológica.</b> Estimación interna de IVA con tasa 16% sobre montos con IVA incluido
+    (factor 16/116). Cifras de los movimientos bancarios de BBVA y Santander (ingresos = hoja del mes; egresos = hoja
+    PROVEEDORES), acumulado del mes a la fecha. Los <b>movimientos financieros</b> (fondos, dividendos, devoluciones,
+    impuestos, nómina) <b>no generan IVA</b> y se excluyen de la base gravable. <b>No sustituye la declaración fiscal
+    oficial</b> — confirmar con el contador.</div>
 
-  <!-- KPI -->
   <div class="grid kpis">
-    <div class="kpi ing"><div class="lbl">Total Ingresos</div><div class="val">$7,463,131</div>
-      <div class="meta">Operativos $4,721,506 · No grav. $2,741,625</div></div>
-    <div class="kpi egr"><div class="lbl">Total Egresos</div><div class="val">$6,349,952</div>
-      <div class="meta">Operativos $3,186,093 · No grav. $3,163,858</div></div>
-    <div class="kpi dif"><div class="lbl">Diferencia Neta</div><div class="val">$1,113,179</div>
+    <div class="kpi ing"><div class="lbl">Total Ingresos</div><div class="val">$126,843</div>
+      <div class="meta">Operativos $126,843 · No grav. $0</div></div>
+    <div class="kpi egr"><div class="lbl">Total Egresos</div><div class="val">$376,943</div>
+      <div class="meta">Operativos $334,566 · No grav. $42,377</div></div>
+    <div class="kpi dif"><div class="lbl">Diferencia Neta</div><div class="val">$-250,100</div>
       <div class="meta">Flujo bruto ingresos − egresos</div></div>
-    <div class="kpi iva"><div class="lbl">IVA Neto Estimado</div><div class="val">$211,781</div>
-      <div class="meta">A pagar (trasladado − acreditable)</div></div>
+    <div class="kpi ing"><div class="lbl">IVA Neto Estimado (a favor)</div><div class="val">$-28,651</div>
+      <div class="meta">Trasladado − acreditable</div></div>
   </div>
 
-  <!-- Comparativa por banco -->
   <h2 class="sec">🏦 Comparativa por banco</h2>
   <div class="grid banks">
     <div class="bank bbva"><h3>BBVA</h3>
-      <div class="line"><span>Ingresos totales</span><span class="v pos">$4,093,487.75</span></div>
-      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$1,354,888.59</span></div>
-      <div class="line sub"><span>· No gravables (fondos/devol.)</span><span class="v">$2,738,599.16</span></div>
-      <div class="line"><span>Egresos totales</span><span class="v neg">$3,546,875.20</span></div>
-      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$828,321.34</span></div>
-      <div class="line sub"><span>· No gravables (dividendos/imptos)</span><span class="v">$2,718,553.86</span></div>
-    </div>
+      <div class="line"><span>Ingresos totales</span><span class="v pos">$57,710.29</span></div>
+      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$57,710.29</span></div>
+      <div class="line sub"><span>· No gravables</span><span class="v">$0.00</span></div>
+      <div class="line"><span>Egresos totales</span><span class="v neg">$181,336.93</span></div>
+      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$181,336.93</span></div>
+      <div class="line sub"><span>· No gravables</span><span class="v">$0.00</span></div></div>
     <div class="bank sant"><h3>Santander</h3>
-      <div class="line"><span>Ingresos totales</span><span class="v pos">$3,369,643.28</span></div>
-      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$3,366,617.08</span></div>
-      <div class="line sub"><span>· No gravables</span><span class="v">$3,026.20</span></div>
-      <div class="line"><span>Egresos totales</span><span class="v neg">$2,803,076.46</span></div>
-      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$2,357,772.12</span></div>
-      <div class="line sub"><span>· No gravables (imptos/nómina/cheques)</span><span class="v">$445,304.34</span></div>
-    </div>
+      <div class="line"><span>Ingresos totales</span><span class="v pos">$69,132.71</span></div>
+      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$69,132.71</span></div>
+      <div class="line sub"><span>· No gravables</span><span class="v">$0.00</span></div>
+      <div class="line"><span>Egresos totales</span><span class="v neg">$195,606.00</span></div>
+      <div class="line sub"><span>· Operativos (con IVA)</span><span class="v">$153,229.34</span></div>
+      <div class="line sub"><span>· No gravables (imptos/nómina/cheques)</span><span class="v">$42,376.66</span></div></div>
   </div>
 
-  <!-- Gráficas -->
   <h2 class="sec">📊 Operación gravable por concepto</h2>
   <div class="grid charts">
     <div class="card"><h3>Ingresos operativos por canal</h3><div class="chart-box"><canvas id="chIng"></canvas></div></div>
     <div class="card"><h3>Egresos operativos por categoría</h3><div class="chart-box"><canvas id="chEgr"></canvas></div></div>
   </div>
 
-  <!-- IVA -->
   <h2 class="sec">🧾 Estimación de IVA</h2>
   <div class="grid iva-boxes">
-    <div class="ivabox tras"><div class="l">IVA Trasladado</div><div class="v">$651,242</div>
-      <div class="f">16/116 × ingresos operativos</div></div>
-    <div class="ivabox acre"><div class="l">IVA Acreditable</div><div class="v">$439,461</div>
-      <div class="f">16/116 × egresos operativos</div></div>
-    <div class="ivabox neto"><div class="l">IVA Neto a Pagar (est.)</div><div class="v">$211,781</div>
-      <div class="f">Trasladado − Acreditable</div></div>
+    <div class="ivabox tras"><div class="l">IVA Trasladado</div><div class="v">$17,496</div><div class="f">16/116 × ingresos operativos</div></div>
+    <div class="ivabox acre"><div class="l">IVA Acreditable</div><div class="v">$46,147</div><div class="f">16/116 × egresos operativos</div></div>
+    <div class="ivabox neto"><div class="l">IVA Neto Estimado (a favor)</div><div class="v">$-28,651</div><div class="f">Trasladado − Acreditable</div></div>
   </div>
-  <div class="iva-bank">
-    <table class="cons"><thead><tr><th>Banco</th><th class="num">Base ingresos op.</th><th class="num">IVA trasladado</th>
+  <div class="iva-bank"><table class="cons"><thead><tr><th>Banco</th><th class="num">Base ingresos op.</th><th class="num">IVA trasladado</th>
       <th class="num">Base egresos op.</th><th class="num">IVA acreditable</th><th class="num">IVA neto</th></tr></thead>
     <tbody>
-      <tr><td><b>BBVA</b></td><td class="num">$1,354,888.59</td><td class="num">$186,881.18</td>
-        <td class="num">$828,321.34</td><td class="num">$114,251.22</td><td class="num">$72,629.96</td></tr>
-      <tr><td><b>Santander</b></td><td class="num">$3,366,617.08</td><td class="num">$464,360.98</td>
-        <td class="num">$2,357,772.12</td><td class="num">$325,209.95</td><td class="num">$139,151.03</td></tr>
-      <tr style="font-weight:700;background:#fef2f2;"><td>TOTAL</td><td class="num">$4,721,505.67</td>
-        <td class="num">$651,242.16</td><td class="num">$3,186,093.46</td>
-        <td class="num">$439,461.17</td><td class="num">$211,780.99</td></tr>
-    </tbody></table>
-  </div>
+      <tr><td><b>BBVA</b></td><td class="num">$57,710.29</td><td class="num">$7,960.04</td>
+        <td class="num">$181,336.93</td><td class="num">$25,011.99</td><td class="num">$-17,051.95</td></tr>
+      <tr><td><b>Santander</b></td><td class="num">$69,132.71</td><td class="num">$9,535.55</td>
+        <td class="num">$153,229.34</td><td class="num">$21,135.08</td><td class="num">$-11,599.53</td></tr>
+      <tr style="font-weight:700;background:#fef2f2;"><td>TOTAL</td><td class="num">$126,843.00</td>
+        <td class="num">$17,495.59</td><td class="num">$334,566.27</td>
+        <td class="num">$46,147.07</td><td class="num">$-28,651.49</td></tr>
+    </tbody></table></div>
 
-  <!-- Alertas -->
   <h2 class="sec">⚠️ Partidas a revisar con el contador</h2>
-  <div class="alerts">
-    <div class="alert"><span class="ic">💸</span><div><b>Reparto de dividendos $2,718,121</b> (BBVA, 22/jun): SPEI a Inbursa $1,463,603 + Bajío $627,259 ×2. Se <b>financió con el rescate de fondos de inversión $2,090,902</b> el mismo día. Operación financiera — <b>no genera IVA</b> y no es gasto operativo.</div></div>
-    <div class="alert"><span class="ic">↩️</span><div><b>SPEI devuelto $627,259</b> (Bajío): uno de los dos envíos de dividendos rebotó y regresó a la cuenta. Es un <b>wash</b> (sale y entra) — excluido de la base gravable.</div></div>
-    <div class="alert"><span class="ic">🛒</span><div><b>Shein $1,613,881</b> (Santander, 6 depósitos): es el mayor ingreso operativo. <b>Confirmar que Shein emite CFDI con IVA</b> para sostener el IVA trasladado.</div></div>
-    <div class="alert"><span class="ic">🏛️</span><div><b>Impuestos federales $228,337</b> (CGO IMPTO FED, Santander) y <b>nómina $194,813</b>: no son IVA acreditable. Asegurar CFDI de nómina timbrado.</div></div>
-    <div class="alert"><span class="ic">🔁</span><div><b>CARGO TRANSFERENCIA ENLACE $292,900</b> (Santander, 18/jun): verificar si es <b>traspaso entre cuentas propias</b>. Si lo es, NO es egreso operativo y reduciría el IVA acreditable.</div></div>
-    <div class="alert"><span class="ic">📄</span><div><b>Pagos por transferencia SPEI</b> a proveedores (varios &gt;$200K): el IVA acreditable solo procede con <b>CFDI válido</b> de cada proveedor.</div></div>
-    <div class="alert"><span class="ic">🏦</span><div><b>CREDIPROVEEDORES Línea $55,562</b> (BBVA, 25/jun): se contó como ingreso gravable. Si es <b>disposición de una línea de crédito</b> (financiamiento) y no una venta, se reclasifica a no gravable y el IVA trasladado baja ~$7,664. Validar naturaleza con el contador.</div></div>
-  </div>
+  <div class="alerts"><div class="alert"><span class="ic">💡</span><div><b>IVA neto en saldo A FAVOR ($-28,651).</b> Al corte (03/07/2026) el IVA acreditable ($46,147) supera al trasladado ($17,496): es normal en los primeros días del mes, cuando ya se pagaron egresos pero aún se acumulan pocas ventas. La cifra se normaliza conforme avanza el mes.</div></div>
+<div class="alert"><span class="ic">📆</span><div><b>Acumulado parcial:</b> el reporte cubre solo los primeros movimientos del mes (4 día(s) con operación). Se actualiza cada semana; las cifras crecerán con el resto del mes.</div></div>
+<div class="alert"><span class="ic">🧾</span><div><b>Cheque en efectivo $5,266</b> (egreso): partida <b>no gravable</b>, fuera de la base de IVA.</div></div>
+<div class="alert"><span class="ic">👥</span><div><b>Nómina $37,110</b> (egreso): partida <b>no gravable</b>, fuera de la base de IVA. Asegurar CFDI de nómina timbrado.</div></div>
+<div class="alert"><span class="ic">🔁</span><div><b>Cargo Transferencia Enlace $4,176</b> (Santander): verificar si es <b>traspaso entre cuentas propias</b>; de serlo, no es egreso operativo y reduce el IVA acreditable.</div></div>
+<div class="alert"><span class="ic">📄</span><div><b>Pagos por transferencia SPEI</b> a proveedores: el IVA acreditable solo procede con <b>CFDI válido</b> de cada proveedor.</div></div></div>
 
-  <!-- Tablas consolidadas -->
   <h2 class="sec">📋 Ingresos por canal (consolidado)</h2>
   <div class="card"><table class="cons"><thead><tr><th>Canal</th><th class="center">Movs</th><th class="num">Monto</th><th class="center">IVA</th><th class="num">IVA implícito</th></tr></thead>
-    <tbody><tr><td>Rescate de inversión</td><td class='center'>1</td><td class='num'>$2,090,901.53</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
-<tr><td>Shein</td><td class='center'>6</td><td class='num'>$1,613,881.14</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$222,604.30</td></tr>
-<tr><td>Distribuidores (FDIS)</td><td class='center'>26</td><td class='num'>$810,396.61</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$111,778.84</td></tr>
-<tr><td>PayPal</td><td class='center'>30</td><td class='num'>$732,063.33</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$100,974.25</td></tr>
-<tr><td>Mercado Libre</td><td class='center'>63</td><td class='num'>$699,870.94</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$96,533.92</td></tr>
-<tr><td>Devolución SPEI</td><td class='center'>7</td><td class='num'>$650,723.83</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
-<tr><td>Importación/Otros (IMP)</td><td class='center'>21</td><td class='num'>$205,536.08</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$28,349.80</td></tr>
-<tr><td>TikTok Shop</td><td class='center'>27</td><td class='num'>$195,129.50</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$26,914.41</td></tr>
-<tr><td>Amazon</td><td class='center'>2</td><td class='num'>$188,618.26</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$26,016.31</td></tr>
-<tr><td>Conekta</td><td class='center'>21</td><td class='num'>$127,292.24</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$17,557.55</td></tr>
-<tr><td>Otros ingresos</td><td class='center'>11</td><td class='num'>$97,119.95</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$13,395.86</td></tr>
-<tr><td>Facturación directa</td><td class='center'>1</td><td class='num'>$33,052.46</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$4,558.96</td></tr>
-<tr><td>Spin by OXXO</td><td class='center'>8</td><td class='num'>$18,545.16</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$2,557.95</td></tr></tbody></table></div>
+    <tbody><tr><td>PayPal</td><td class='center'>1</td><td class='num'>$45,596.41</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$6,289.16</td></tr>
+<tr><td>Facturación directa</td><td class='center'>1</td><td class='num'>$38,687.74</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$5,336.24</td></tr>
+<tr><td>Distribuidores (FDIS)</td><td class='center'>2</td><td class='num'>$15,749.78</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$2,172.38</td></tr>
+<tr><td>Mercado Libre</td><td class='center'>7</td><td class='num'>$10,983.18</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$1,514.92</td></tr>
+<tr><td>TikTok Shop</td><td class='center'>1</td><td class='num'>$8,908.65</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$1,228.78</td></tr>
+<tr><td>Importación/Otros (IMP)</td><td class='center'>1</td><td class='num'>$3,712.00</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$512.00</td></tr>
+<tr><td>Conekta</td><td class='center'>1</td><td class='num'>$3,205.23</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$442.10</td></tr>
+<tr><td>Otros ingresos</td><td class='center'>1</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$0.00</td></tr></tbody></table></div>
 
   <h2 class="sec">📋 Egresos por categoría (consolidado)</h2>
   <div class="card"><table class="cons"><thead><tr><th>Categoría</th><th class="center">Movs</th><th class="num">Monto</th><th class="center">IVA</th><th class="num">IVA implícito</th></tr></thead>
-    <tbody><tr><td>Dividendos (reparto)</td><td class='center'>3</td><td class='num'>$2,718,120.60</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
-<tr><td>Proveedores / Pagos</td><td class='center'>49</td><td class='num'>$2,179,803.79</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$300,662.59</td></tr>
-<tr><td>Otros gastos</td><td class='center'>10</td><td class='num'>$346,604.26</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$47,807.48</td></tr>
-<tr><td>Compras con tarjeta</td><td class='center'>82</td><td class='num'>$282,731.64</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$38,997.47</td></tr>
-<tr><td>Impuestos federales</td><td class='center'>2</td><td class='num'>$228,337.00</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
-<tr><td>Nómina</td><td class='center'>5</td><td class='num'>$194,812.53</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
-<tr><td>Asesorías</td><td class='center'>1</td><td class='num'>$145,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$20,000.00</td></tr>
-<tr><td>Renta</td><td class='center'>2</td><td class='num'>$95,144.81</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$13,123.42</td></tr>
-<tr><td>Insumos / Fletes</td><td class='center'>1</td><td class='num'>$87,451.96</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$12,062.34</td></tr>
-<tr><td>Combustible</td><td class='center'>3</td><td class='num'>$30,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$4,137.93</td></tr>
-<tr><td>Cheque en efectivo</td><td class='center'>3</td><td class='num'>$22,154.80</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
-<tr><td>Equipo / Servicios</td><td class='center'>1</td><td class='num'>$11,020.00</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$1,520.00</td></tr>
-<tr><td>Certificación / Servicios</td><td class='center'>1</td><td class='num'>$8,337.00</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$1,149.93</td></tr>
-<tr><td>Comisiones bancarias</td><td class='center'>3</td><td class='num'>$433.26</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
+    <tbody><tr><td>Paquetería / Envíos</td><td class='center'>2</td><td class='num'>$181,290.53</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$25,005.59</td></tr>
+<tr><td>Proveedores / Pagos</td><td class='center'>4</td><td class='num'>$113,853.54</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$15,703.94</td></tr>
+<tr><td>Compras con tarjeta</td><td class='center'>12</td><td class='num'>$39,360.87</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$5,429.09</td></tr>
+<tr><td>Nómina</td><td class='center'>1</td><td class='num'>$37,110.20</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
+<tr><td>Cheque en efectivo</td><td class='center'>1</td><td class='num'>$5,266.45</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr>
+<tr><td>Comisiones bancarias</td><td class='center'>2</td><td class='num'>$46.40</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$6.40</td></tr>
+<tr><td>Otros gastos</td><td class='center'>1</td><td class='num'>$14.93</td><td class='center'><span class="tag iva-si">Sí</span></td><td class='num'>$2.06</td></tr>
 <tr><td>Retenciones (ISR)</td><td class='center'>1</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-no">No</span></td><td class='num'>—</td></tr></tbody></table></div>
 
-  <!-- Detalle -->
   <h2 class="sec">🔍 Detalle de movimientos</h2>
-  <div class="tabs"><button class="tab-btn active" onclick="showTab(0)">BBVA Ingresos <span class="badge">93</span></button><button class="tab-btn " onclick="showTab(1)">BBVA Egresos <span class="badge">45</span></button><button class="tab-btn " onclick="showTab(2)">Santander Ingresos <span class="badge">131</span></button><button class="tab-btn " onclick="showTab(3)">Santander Egresos <span class="badge">122</span></button></div>
+  <div class="tabs"><button class="tab-btn active" onclick="showTab(0)">BBVA Ingresos <span class="badge">3</span></button><button class="tab-btn " onclick="showTab(1)">BBVA Egresos <span class="badge">4</span></button><button class="tab-btn " onclick="showTab(2)">Santander Ingresos <span class="badge">12</span></button><button class="tab-btn " onclick="showTab(3)">Santander Egresos <span class="badge">20</span></button></div>
   <div class="tab-pane active" id="pane0">
       <table class="detalle"><thead><tr><th>Fecha</th><th>Concepto</th><th>Grupo</th><th>Monto</th><th>IVA</th></tr></thead>
-      <tbody><tr><td>01/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3522252926 106 00000011050616794534</td><td>PayPal</td><td class='num'>$32,950.06</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0197750136 706 0537588Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$6,787.16</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0194583378 072 76561127656112 Conekta</td><td>Conekta</td><td class='num'>$2,529.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 1352210 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$1,023.98</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3522582033 106 00000011050639955636</td><td>PayPal</td><td class='num'>$32,904.17</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3522564824 106 00000011050684471570</td><td>PayPal</td><td class='num'>$28,911.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0104082479 706 1243216Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$6,945.57</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0102128316 072 02260310226031 Conekta</td><td>Conekta</td><td class='num'>$6,749.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3522626026 106 00000011050660362904</td><td>PayPal</td><td class='num'>$5,200.65</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3523060575 106 00000011050711141613</td><td>PayPal</td><td class='num'>$26,368.33</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0110291331 706 0062500Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$3,928.64</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0107409259 072 95011159501115 Conekta</td><td>Conekta</td><td class='num'>$892.24</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3523591116 106 00000011050734352417</td><td>PayPal</td><td class='num'>$49,519.95</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0114365198 072 07332300733230 Conekta</td><td>Conekta</td><td class='num'>$6,498.53</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0116196446 706 1962591Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$2,856.11</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 0575394 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$1,340.48</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3526216271 106 00000011050755885060</td><td>PayPal</td><td class='num'>$27,931.19</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 5934918 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$7,401.77</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0119960277 072 61140416114041 Conekta</td><td>Conekta</td><td class='num'>$5,896.39</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0123008336 706 7939823Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$5,439.47</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>06/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0128942969 706 0968644Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$4,625.56</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>07/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0133726294 706 5224365Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$3,257.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3526563294 106 00000011050780396024</td><td>PayPal</td><td class='num'>$22,666.09</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0137112517 072 10707101070710 Conekta</td><td>Conekta</td><td class='num'>$13,625.70</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0139516927 706 1731868Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$7,689.17</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 8971900 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$2,868.42</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3526915394 106 00000011050804246837</td><td>PayPal</td><td class='num'>$16,974.73</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3526995850 106 00000011050826574772</td><td>PayPal</td><td class='num'>$16,335.14</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0145168359 706 1293992Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$6,167.54</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3526943011 106 00000011050847650207</td><td>PayPal</td><td class='num'>$5,840.12</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 5241124 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$3,236.63</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0142593050 072 66983936698393 Conekta</td><td>Conekta</td><td class='num'>$2,870.94</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3528054935 106 00000011050869986749</td><td>PayPal</td><td class='num'>$30,347.11</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>SPEI DEVUELTOBANORTE/0044394090 072 0100626CAJAS MASCADAS</td><td>Devolución SPEI</td><td class='num'>$16,639.04</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0148275268 072 01284880128488 Conekta</td><td>Conekta</td><td class='num'>$6,960.44</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0150570098 706 3362816Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$5,826.75</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3528979742 106 00000011050894243429</td><td>PayPal</td><td class='num'>$29,176.93</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0156323678 706 5508356Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$4,510.06</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0153751878 072 41283114128311 Conekta</td><td>Conekta</td><td class='num'>$1,494.99</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3533037723 106 00000011050917595581</td><td>PayPal</td><td class='num'>$23,369.87</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0164251185 706 1240531Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$6,342.18</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0160463035 072 54505575450557 Conekta</td><td>Conekta</td><td class='num'>$1,657.25</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 6711355 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$940.43</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>13/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0170409343 706 3309199Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$5,597.61</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>14/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0175163689 706 8093476Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$7,576.56</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3534779872 106 00000011050941826168</td><td>PayPal</td><td class='num'>$12,088.30</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0179800480 072 77950347795034 Conekta</td><td>Conekta</td><td class='num'>$6,245.68</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>SPEI RECIBIDOBAJIO/0187399898 030 0000151F151 Gracias</td><td>Distribuidores (FDIS)</td><td class='num'>$115,286.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3535430463 106 00000011050963549633</td><td>PayPal</td><td class='num'>$24,103.23</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3535505105 106 00000011050985207025</td><td>PayPal</td><td class='num'>$13,125.93</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0187619446 072 34814163481416 Conekta</td><td>Conekta</td><td class='num'>$10,705.83</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3535601370 106 00000011051005715872</td><td>PayPal</td><td class='num'>$9,723.21</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0184798493 706 4898246Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$7,060.78</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0190959804 706 0707839Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$4,377.39</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>MORA SPEI NORMABANXICO/COMPENSACION DE</td><td>Otros ingresos</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3535948124 106 00000011051030932962</td><td>PayPal</td><td class='num'>$25,358.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0193992652 072 93730449373044 Conekta</td><td>Conekta</td><td class='num'>$11,941.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>SPEI DEVUELTOSANTANDER/0046112061 014 0170626INTERNET</td><td>Devolución SPEI</td><td class='num'>$3,799.99</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0197172929 706 5687027Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$2,622.37</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3536419084 106 00000011051053548431</td><td>PayPal</td><td class='num'>$30,768.16</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0102960839 706 4825141Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$5,349.35</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0100160141 072 45384794538479 Conekta</td><td>Conekta</td><td class='num'>$2,638.70</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>SPEI RECIBIDOBAJIO/0108616476 030 0000165FDIS 165 Gracias</td><td>Distribuidores (FDIS)</td><td class='num'>$111,360.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3539056555 106 00000011051075019221</td><td>PayPal</td><td class='num'>$28,556.91</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0107020385 072 10135501013550 Conekta</td><td>Conekta</td><td class='num'>$4,389.42</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0110640535 706 6521734Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$4,232.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>21/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0116906001 706 4397129Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$6,979.36</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>VENTA FONDOS DE INVERSION/BBVAPYM B-5 00 OPERADO EN CANAL BNET</td><td>Rescate de inversión</td><td class='num'>$2,090,901.53</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>SPEI DEVUELTOBAJIO/0047177991 030 0220626PAGO DIVIDENDOS</td><td>Devolución SPEI</td><td class='num'>$627,258.60</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3539397422 106 00000011051098040628</td><td>PayPal</td><td class='num'>$18,087.97</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0126786715 706 4163598Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$12,086.31</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0121225840 706 1023776Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$11,389.49</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0123869620 072 66249096624909 Conekta</td><td>Conekta</td><td class='num'>$6,720.45</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3539825402 106 00000011051109918580</td><td>PayPal</td><td class='num'>$81,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3539893626 106 00000011051120844323</td><td>PayPal</td><td class='num'>$18,242.90</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3539774733 106 00000011051161518597</td><td>PayPal</td><td class='num'>$14,999.66</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3539752451 106 00000011051142637430</td><td>PayPal</td><td class='num'>$11,949.39</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0129603162 072 52503915250391 Conekta</td><td>Conekta</td><td class='num'>$10,325.85</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>DEPOSITO DE TERCERO/REFBNTC00002623 5270805 Femsa BMRCASH</td><td>Spin by OXXO</td><td class='num'>$1,383.45</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3540374530 106 00000011051183012955</td><td>PayPal</td><td class='num'>$39,403.53</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0132903991 706 6519279Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$19,415.25</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0135412399 072 60312276031227 Conekta</td><td>Conekta</td><td class='num'>$2,474.61</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>CREDIPROVEEDORES LINEA/9644897511 PAGO DOCTO DIA8081199</td><td>Otros ingresos</td><td class='num'>$55,561.75</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3541642193 106 00000011051207520052</td><td>PayPal</td><td class='num'>$19,773.76</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0138353532 706 3616717Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$12,765.87</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0141002911 072 90405289040528 Conekta</td><td>Conekta</td><td class='num'>$4,927.75</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3544677360 106 00000011051228805068</td><td>PayPal</td><td class='num'>$18,687.33</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0144568382 706 2215760Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$6,363.72</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0147927125 072 05285560528556 Conekta</td><td>Conekta</td><td class='num'>$3,144.82</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>27/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0152209334 706 5715942Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$10,903.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>28/06/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0158050485 706 4785699Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$14,033.68</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3546450596 106 00000011051251351880</td><td>PayPal</td><td class='num'>$17,698.31</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0165726286 072 12155911215591 Conekta</td><td>Conekta</td><td class='num'>$14,602.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
-      <tfoot><tr><td colspan="3">Total BBVA Ingresos (93 movs)</td><td class="num">$4,093,487.75</td><td></td></tr></tfoot></table></div><div class="tab-pane " id="pane1">
+      <tbody><tr><td>01/07/2026</td><td class='desc'>TEF RECIBIDO BANK OF AMER/3548926382 106 00000011051343455195</td><td>PayPal</td><td class='num'>$45,596.41</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>SPEI RECIBIDOARCUS FI/0179944777 706 3512797Transferencia de TikTok Shop P</td><td>TikTok Shop</td><td class='num'>$8,908.65</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>SPEI RECIBIDOBANORTE/0181875926 072 35315693531569 Conekta</td><td>Conekta</td><td class='num'>$3,205.23</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
+      <tfoot><tr><td colspan="3">Total BBVA Ingresos (3 movs)</td><td class="num">$57,710.29</td><td></td></tr></tfoot></table></div><div class="tab-pane " id="pane1">
       <table class="detalle"><thead><tr><th>Fecha</th><th>Concepto</th><th>Grupo</th><th>Monto</th><th>IVA</th></tr></thead>
-      <tbody><tr><td>02/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0043531032 BNET 0147490186 RENTA BODEGA</td><td>Renta</td><td class='num'>$89,053.07</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0043531017 BNET 0118379947 FUMIGACION</td><td>Proveedores / Pagos</td><td class='num'>$8,484.24</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0084212011 BNET 0477157088 GASOLINA</td><td>Combustible</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/26</td><td class='desc'>SPEI ENVIADO BANREGIO/0042537884 058 0030626ESTUDIO GRABACION</td><td>Proveedores / Pagos</td><td class='num'>$9,396.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/26</td><td class='desc'>SPEI ENVIADO SANTANDER/0042536635 014 0030626RENTA IMPRESORAS</td><td>Renta</td><td class='num'>$6,091.74</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/26</td><td class='desc'>CHEQUE PAGADO NO./0000067 PAGO EN EFECTIVO</td><td>Otros gastos</td><td class='num'>$7,534.98</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/26</td><td class='desc'>SERV BANCA INTERNET/ADMON RENTA 01 - 30 JUN 26</td><td>Comisiones bancarias</td><td class='num'>$250.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>04/06/26</td><td class='desc'>SERV BANCA INTERNET/OPS SERV BCA IN 01 - 31 MAY 26</td><td>Comisiones bancarias</td><td class='num'>$123.50</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>04/06/26</td><td class='desc'>IVA COM SERV BCA INTERNET/IVA COM SERV BC 01 - 30 JUN 26</td><td>Comisiones bancarias</td><td class='num'>$59.76</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>05/06/26</td><td class='desc'>CHEQUE PAGADO NO./CH-0000071 RFC CUENTA DE DEPOSITO:EICD980606-PN1</td><td>Otros gastos</td><td class='num'>$40,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0032540030 BNET 1546097704 PUBLICIDAD TIKTOK</td><td>Proveedores / Pagos</td><td class='num'>$14,571.66</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0032540070 BNET 0163554600 CIBERSEGURIDAD</td><td>Equipo / Servicios</td><td class='num'>$11,020.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/26</td><td class='desc'>SPEI ENVIADO SANTANDER/0043939686 014 0090626MANTENIMIENTO BODEGA 15</td><td>Proveedores / Pagos</td><td class='num'>$4,860.34</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/26</td><td class='desc'>SPEI ENVIADO BAJIO/0043943274 030 0090626REPARACION LAPTOP</td><td>Proveedores / Pagos</td><td class='num'>$1,606.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0044389500 072 0100626REPARACION MOTOR</td><td>Proveedores / Pagos</td><td class='num'>$46,168.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/26</td><td class='desc'>SPEI ENVIADO HSBC/0044320439 021 0100626BOLSA EMPAQUE</td><td>Proveedores / Pagos</td><td class='num'>$45,452.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0016308017 BNET 1583700750 CONTABILIDAD MAYO2</td><td>Proveedores / Pagos</td><td class='num'>$20,655.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0044394090 072 0100626CAJAS MASCADAS</td><td>Proveedores / Pagos</td><td class='num'>$16,639.04</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0044318578 072 0100626CAJA 10</td><td>Proveedores / Pagos</td><td class='num'>$9,952.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/26</td><td class='desc'>SPEI ENVIADO BANAMEX/0044324989 002 0100626INSTALACION TANQUE</td><td>Proveedores / Pagos</td><td class='num'>$8,342.02</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/26</td><td class='desc'>SPEI ENVIADO BAJIO/0044607152 030 0110626CAMBIO DE DISPLAY</td><td>Proveedores / Pagos</td><td class='num'>$3,534.30</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0044734674 072 0120626CAJAS 2PINKBONES</td><td>Proveedores / Pagos</td><td class='num'>$16,639.04</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0044732018 072 0120626SEPARADORES</td><td>Proveedores / Pagos</td><td class='num'>$15,799.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0044729075 072 0120626CAJA 10</td><td>Proveedores / Pagos</td><td class='num'>$12,249.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0053818025 BNET 0477157088 GASOLINA</td><td>Combustible</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0053818044 BNET 1541360051 TARJETAS VENTAS</td><td>Proveedores / Pagos</td><td class='num'>$950.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0045494337 072 0150626PROMOCION Y MARKETING</td><td>Proveedores / Pagos</td><td class='num'>$15,810.25</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0072971017 BNET 1541360051 TARJETAS VENTAS</td><td>Proveedores / Pagos</td><td class='num'>$152.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/26</td><td class='desc'>SPEI ENVIADO BANAMEX/0045786146 002 0160626ASESORIA INVENTARIOS</td><td>Asesorías</td><td class='num'>$145,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0045840380 072 0260626SEPARADORES</td><td>Proveedores / Pagos</td><td class='num'>$22,796.73</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0045838417 072 0160626CAJA 10</td><td>Proveedores / Pagos</td><td class='num'>$16,889.14</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0020754015 BNET 0142765918 PLACAS NISSAN MARC</td><td>Proveedores / Pagos</td><td class='num'>$6,500.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/26</td><td class='desc'>SPEI ENVIADO SANTANDER/0046112061 014 0170626INTERNET</td><td>Proveedores / Pagos</td><td class='num'>$3,799.99</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/26</td><td class='desc'>SPEI ENVIADO SCOTIABANK/0046314307 044 0180626TINTA TERMOCROMATICA</td><td>Proveedores / Pagos</td><td class='num'>$9,377.88</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0098573015 BNET 0452084686 MANTENIMIENTO AUTO</td><td>Proveedores / Pagos</td><td class='num'>$5,450.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/26</td><td class='desc'>SPEI ENVIADO BANORTE/0046311715 072 0180626CONTROL DE PLAGAS</td><td>Proveedores / Pagos</td><td class='num'>$3,456.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0094016038 BNET 1539418994 RECOLECCION BASURA</td><td>Proveedores / Pagos</td><td class='num'>$2,784.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/26</td><td class='desc'>QUALITAS COMPANIA DE/GUIA:4010440 REF:04030464446746525204 CIE:1267639</td><td>Certificación / Servicios</td><td class='num'>$8,337.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/26</td><td class='desc'>SPEI ENVIADO INBURSA/0047298231 036 0220626PAGO DIVIDENDOS</td><td>Dividendos (reparto)</td><td class='num'>$1,463,603.40</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/26</td><td class='desc'>SPEI ENVIADO BAJIO/0047294912 030 0220626PAGO DIVIDENDOS</td><td>Dividendos (reparto)</td><td class='num'>$627,258.60</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/26</td><td class='desc'>SPEI ENVIADO BAJIO/0047177991 030 0220626PAGO DIVIDENDOS</td><td>Dividendos (reparto)</td><td class='num'>$627,258.60</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>24/06/26</td><td class='desc'>SPEI ENVIADO HSBC/0047833331 021 0240626POPOTES 24CM</td><td>Insumos / Fletes</td><td class='num'>$87,451.96</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0075603028 BNET 0477157088 GASOLINA</td><td>Combustible</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/26</td><td class='desc'>SPEI ENVIADO SANTANDER/0047826816 014 0240626CTE0120939MCMA02850256</td><td>Proveedores / Pagos</td><td class='num'>$3,799.99</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0011070017 BNET 0198620636 FINIQUITO CASO HID</td><td>Proveedores / Pagos</td><td class='num'>$77,715.92</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
-      <tfoot><tr><td colspan="3">Total BBVA Egresos (45 movs)</td><td class="num">$3,546,875.20</td><td></td></tr></tfoot></table></div><div class="tab-pane " id="pane2">
+      <tbody><tr><td>01/07/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0072282028 BNET 0443432513 533 GUIAS MX</td><td>Paquetería / Envíos</td><td class='num'>$148,671.93</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/26</td><td class='desc'>PAGO CUENTA DE TERCERO/ 0072282019 BNET 0443432513 8 GUIAS LTL</td><td>Paquetería / Envíos</td><td class='num'>$32,618.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/26</td><td class='desc'>EMISION LIBRAMIE CHQ/DEL 01JUN26 AL 30JUN26</td><td>Comisiones bancarias</td><td class='num'>$40.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/26</td><td class='desc'>IVA EMISION LIBRAMIE CHQ/ 16%</td><td>Comisiones bancarias</td><td class='num'>$6.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
+      <tfoot><tr><td colspan="3">Total BBVA Egresos (4 movs)</td><td class="num">$181,336.93</td><td></td></tr></tfoot></table></div><div class="tab-pane " id="pane2">
       <table class="detalle"><thead><tr><th>Fecha</th><th>Concepto</th><th>Grupo</th><th>Monto</th><th>IVA</th></tr></thead>
-      <tbody><tr><td>01/06/2026</td><td class='desc'>Pago a vendedor SHEIN 0000000</td><td>Shein</td><td class='num'>$294,771.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>S135061 012840004858874535</td><td>Importación/Otros (IMP)</td><td class='num'>$5,695.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,502.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,150.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,483.02</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,071.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$611.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$424.44</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$332.10</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>01-05-2026 AL 31-05-2026</td><td>Otros ingresos</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$100,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>FACT FDIS 2026 00161 012320001786823058</td><td>Distribuidores (FDIS)</td><td class='num'>$10,779.30</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$6,850.32</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>KPAY000000001689378K 012180001154769256</td><td>Otros ingresos</td><td class='num'>$6,020.49</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$3,904.05</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>Bbh vasos 021849065929696330</td><td>Importación/Otros (IMP)</td><td class='num'>$3,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>amazing world 012306014422375716</td><td>Importación/Otros (IMP)</td><td class='num'>$2,805.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,970.64</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,433.59</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>FDIS2026153 012320004493615530</td><td>Distribuidores (FDIS)</td><td class='num'>$77.14</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>COTIZ S135897 012261004450702794</td><td>Importación/Otros (IMP)</td><td class='num'>$9,775.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>6457428 5579089001371098</td><td>Otros ingresos</td><td class='num'>$3,300.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>SPIN DE Lacatus Assene Montes 728969000152147946</td><td>Spin by OXXO</td><td class='num'>$350.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,925.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,781.25</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,688.18</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,225.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>FAC. IMP/2026/00056 112180000029375634</td><td>Importación/Otros (IMP)</td><td class='num'>$16,385.58</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,035.85</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>Pago a vendedor SHEIN 0000000</td><td>Shein</td><td class='num'>$340,017.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$120,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>rigel mdz uupz 012215004873013249</td><td>Distribuidores (FDIS)</td><td class='num'>$34,514.64</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>Pedro Tijuana</td><td>Distribuidores (FDIS)</td><td class='num'>$7,892.64</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>4587358 5579089001371098</td><td>Importación/Otros (IMP)</td><td class='num'>$3,300.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>vasos AW 012306014422375716</td><td>Importación/Otros (IMP)</td><td class='num'>$2,805.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>Prote?nas Ale Gil 722969010574570996</td><td>Otros ingresos</td><td class='num'>$1,750.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>FDIS2026169 012320004493615530</td><td>Distribuidores (FDIS)</td><td class='num'>$893.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$718.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$473.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>KPAY000000001698140K 012180001154769256</td><td>Otros ingresos</td><td class='num'>$5,620.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,174.32</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,400.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>0</td><td>Importación/Otros (IMP)</td><td class='num'>$1,218.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$976.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$463.43</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>VASOS DIA DEL PADRE 062180001331124729</td><td>Importación/Otros (IMP)</td><td class='num'>$17,212.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>Transferencia a Deviart</td><td>Distribuidores (FDIS)</td><td class='num'>$17,114.06</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>COT S135897 012261004450702794</td><td>Importación/Otros (IMP)</td><td class='num'>$9,775.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,082.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$815.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$679.96</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>135004 012320004859713490</td><td>Distribuidores (FDIS)</td><td class='num'>$25,305.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>COTS137887 012691001186299869</td><td>Importación/Otros (IMP)</td><td class='num'>$20,250.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>DEVIART 002691061260084636</td><td>Distribuidores (FDIS)</td><td class='num'>$13,548.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>Triton Diving Vasos DEVIART SA de CV 021694064929578280</td><td>Importación/Otros (IMP)</td><td class='num'>$6,250.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>nathaly maldonado c 012743004908700805</td><td>Distribuidores (FDIS)</td><td class='num'>$6,055.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$5,004.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$3,904.05</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,433.58</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>DASQPJ2RWKDZ3P6 021180040576052632</td><td>Amazon</td><td class='num'>$90,648.19</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>FDIS2026171 1206268 012320004493615530</td><td>Distribuidores (FDIS)</td><td class='num'>$1,002.82</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>Pago a vendedor SHEIN 0000000</td><td>Shein</td><td class='num'>$366,072.30</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>LOTE DE VASOS</td><td>Distribuidores (FDIS)</td><td class='num'>$140,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$110,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>SUN 24oz 27 cajas 021020040534186794</td><td>Distribuidores (FDIS)</td><td class='num'>$72,344.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>SERVICIOS ADMINISTRATIVOS</td><td>Distribuidores (FDIS)</td><td class='num'>$17,400.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>nathaly maldonado c 012743004908700805</td><td>Distribuidores (FDIS)</td><td class='num'>$9,082.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>SLIM 12oz 3 cajas 021020040534186794</td><td>Distribuidores (FDIS)</td><td class='num'>$8,582.38</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>Anticipo cot S139864 072028011538946651</td><td>Importación/Otros (IMP)</td><td class='num'>$6,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,697.76</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>PAGO OPERADORA CLUB DE GOLF 072375006843312832</td><td>Importación/Otros (IMP)</td><td class='num'>$23,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>Vaso triton DEVIART SA de CV 021694064929578280</td><td>Importación/Otros (IMP)</td><td class='num'>$6,250.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>KPAY000000001707118K 012180001154769256</td><td>Otros ingresos</td><td class='num'>$5,185.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$4,892.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>ProteinasLupita 012090015181353193</td><td>Otros ingresos</td><td class='num'>$2,959.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,502.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$633.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>013289 AMAZON MEXICO</td><td>Devolución SPEI</td><td class='num'>$20.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$5,734.32</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>Traspaso a otros bancos Inbursa 036910500603912861</td><td>Importación/Otros (IMP)</td><td class='num'>$2,805.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,502.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>062879 AMAZON MEXICO</td><td>Devolución SPEI</td><td class='num'>$20.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>vasos econ 012180015172288077</td><td>Distribuidores (FDIS)</td><td class='num'>$14,381.10</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>2 cajas SUN 24 021020040534186794</td><td>Distribuidores (FDIS)</td><td class='num'>$6,055.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,140.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$596.70</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$461.10</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>Liquidacion cot S139864 072028011538946651</td><td>Importación/Otros (IMP)</td><td class='num'>$6,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>Transferencia a DEVIART SA DE CV 044164256020981211</td><td>Distribuidores (FDIS)</td><td class='num'>$3,027.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>Compra vasos 012580001206066504</td><td>Importación/Otros (IMP)</td><td class='num'>$3,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,358.16</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>Pago a vendedor SHEIN 0000000</td><td>Shein</td><td class='num'>$338,791.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$150,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>DEVOLUCION (15): Tipo de pago erroneo 021180550300067765</td><td>Devolución SPEI</td><td class='num'>$2,976.20</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$648.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$633.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$619.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$461.10</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>10 FACTURAS 012320004493615530</td><td>Facturación directa</td><td class='num'>$33,052.46</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$7,808.10</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>KPAY000000001716165K 012180001154769256</td><td>Otros ingresos</td><td class='num'>$3,860.66</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$435.16</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>VASOS REUSABLES 021375040571723551</td><td>Distribuidores (FDIS)</td><td class='num'>$5,863.10</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,990.88</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,125.16</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$953.19</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$403.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>012582 FACEBOOK MEXICO</td><td>Devolución SPEI</td><td class='num'>$10.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>VASOS SUN 012470001073396740</td><td>Distribuidores (FDIS)</td><td class='num'>$9,082.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>Segundo pago vasos 012580001206066504</td><td>Importación/Otros (IMP)</td><td class='num'>$3,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>DASQWDQTBOGG6I7 021180040576052632</td><td>Amazon</td><td class='num'>$97,970.07</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>LOTE DE VASOS</td><td>Distribuidores (FDIS)</td><td class='num'>$57,500.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>FAC. IMP/2026/00060 112180000029375634</td><td>Importación/Otros (IMP)</td><td class='num'>$46,980.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>Transferencia de PRINTING MARKET S.A. DE 058320000007454433</td><td>Otros ingresos</td><td class='num'>$12,862.08</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>MBTRIPLAY FAC 00077 VASOS PUBL 012320001816789499</td><td>Importación/Otros (IMP)</td><td class='num'>$10,030.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,778.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,433.58</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,318.44</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,234.43</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,232.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>Pago a vendedor SHEIN 0000000</td><td>Shein</td><td class='num'>$273,409.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$120,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>SUN 24oz 021020040534186794</td><td>Distribuidores (FDIS)</td><td class='num'>$72,344.50</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>F00245 012320004859713490</td><td>Distribuidores (FDIS)</td><td class='num'>$39,045.60</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MINI SUN 16oz 021020040534186794</td><td>Distribuidores (FDIS)</td><td class='num'>$11,857.23</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,251.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,251.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>Pago a vendedor SHEIN 0000000</td><td>Shein</td><td class='num'>$819.59</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$424.44</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$424.44</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$413.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
-      <tfoot><tr><td colspan="3">Total Santander Ingresos (131 movs)</td><td class="num">$3,369,643.28</td><td></td></tr></tfoot></table></div><div class="tab-pane " id="pane3">
+      <tbody><tr><td>01/07/2026</td><td class='desc'>FACTURAS VARIAS 012320001786823058</td><td>Facturación directa</td><td class='num'>$38,687.74</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>Pedro Tijuana</td><td>Distribuidores (FDIS)</td><td class='num'>$9,997.34</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>Pedro Tijuana</td><td>Distribuidores (FDIS)</td><td class='num'>$5,752.44</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>VASO HEROES DE LA FE IMPRESO 021020040534186794</td><td>Importación/Otros (IMP)</td><td class='num'>$3,712.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>01-06-2026 AL 30-06-2026</td><td>Otros ingresos</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$3,723.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$2,651.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,251.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$768.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$633.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>03/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$1,251.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>03/07/2026</td><td class='desc'>MERCADO\*PAGO 722969010766610004</td><td>Mercado Libre</td><td class='num'>$705.63</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
+      <tfoot><tr><td colspan="3">Total Santander Ingresos (12 movs)</td><td class="num">$69,132.71</td><td></td></tr></tfoot></table></div><div class="tab-pane " id="pane3">
       <table class="detalle"><thead><tr><th>Fecha</th><th>Concepto</th><th>Grupo</th><th>Monto</th><th>IVA</th></tr></thead>
-      <tbody><tr><td>01/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$8,320.55</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$4,712.92</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$3,836.19</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$1,426.91</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$692.52</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>01/06/2026</td><td class='desc'>RETENCION I S R</td><td>Retenciones (ISR)</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$7,649.15</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>02/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$5,246.84</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$217,302.80</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>03/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,173.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$406,000.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$40,213.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>04/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$362.26</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$56,691.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>05/06/2026</td><td class='desc'>CARGO PAGO NOMINA POR APLICAR</td><td>Nómina</td><td class='num'>$40,544.93</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$5,091.51</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$3,856.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,913.35</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,055.29</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$582.91</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$554.89</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>08/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$309.63</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$15,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>09/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$2,450.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>10/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$238.89</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>PAGO CHEQUE EFECTIVO</td><td>Cheque en efectivo</td><td class='num'>$5,488.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>PAGO CHEQUE EFECTIVO</td><td>Cheque en efectivo</td><td class='num'>$5,377.40</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$5,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$724.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>11/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$349.52</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$49,999.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>CARGO PAGO NOMINA POR APLICAR</td><td>Nómina</td><td class='num'>$39,634.20</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$37,797.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$20,393.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>PAGO CHEQUE EFECTIVO</td><td>Cheque en efectivo</td><td class='num'>$11,289.40</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$987.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$345.85</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$214.70</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>12/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$211.14</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$319,725.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$213,697.46</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CARGO PAGO NOMINA POR APLICAR</td><td>Nómina</td><td class='num'>$35,610.80</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$11,997.23</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$1,270.13</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$874.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$847.33</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$615.91</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$86.63</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>15/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$20.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$11,617.68</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$4,640.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>16/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$20.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>APORT LINEA CAPTURA INTERNET</td><td>Otros gastos</td><td class='num'>$43,654.05</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>17/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$783.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>CARGO TRANSFERENCIA ENLACE</td><td>Proveedores / Pagos</td><td class='num'>$292,900.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$951.28</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>18/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$259.33</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>CARGO PAGO NOMINA POR APLICAR</td><td>Nómina</td><td class='num'>$37,934.20</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$5,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>19/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$3,917.54</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CGO IMPTO FED TRANSF ELECT</td><td>Impuestos federales</td><td class='num'>$218,321.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CGO IMPTO FED TRANSF ELECT</td><td>Impuestos federales</td><td class='num'>$10,016.00</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$9,844.73</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$2,976.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$2,792.35</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$2,584.48</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$1,723.71</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>22/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$175.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$9,200.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$8,352.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$7,050.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$2,920.30</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CARGO TRANSFERENCIA ENLACE</td><td>Proveedores / Pagos</td><td class='num'>$752.84</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$77.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$36.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$36.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>23/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$10.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$49,999.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>DOMICILIACION PAGO SERVICIO</td><td>Otros gastos</td><td class='num'>$45,017.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$15,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$4,333.02</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$2,976.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$363.65</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$180.84</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$169.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$89.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$88.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$55.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>24/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$52.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$204.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>25/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$159.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$207,924.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$71,358.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CARGO PAGO NOMINA POR APLICAR</td><td>Nómina</td><td class='num'>$41,088.40</td><td class='center'><span class="tag iva-no">No</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CARGO TRANSFERENCIA ENLACE</td><td>Proveedores / Pagos</td><td class='num'>$5,672.40</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$5,559.59</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$4,466.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$2,175.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,974.78</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,934.51</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$527.62</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$506.87</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$487.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$323.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$253.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>26/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$184.04</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$11,611.19</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$5,267.20</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,760.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,405.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,019.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$492.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$492.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$490.99</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$382.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$382.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
-<tr><td>29/06/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$330.42</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
-      <tfoot><tr><td colspan="3">Total Santander Egresos (122 movs)</td><td class="num">$2,803,076.46</td><td></td></tr></tfoot></table></div>
+      <tbody><tr><td>01/07/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$89,053.07</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$10,038.18</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$5,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CARGO TRANSFERENCIA ENLACE</td><td>Proveedores / Pagos</td><td class='num'>$4,176.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$3,862.45</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$1,937.98</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$618.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$598.79</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$200.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1.61</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>01/07/2026</td><td class='desc'>RETENCION I S R</td><td>Retenciones (ISR)</td><td class='num'>$0.01</td><td class='center'><span class="tag iva-no">No</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>PAGO TRANSFERENCIA SPEI</td><td>Proveedores / Pagos</td><td class='num'>$15,624.47</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$5,347.58</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>PAGO CHEQUE EFECTIVO</td><td>Cheque en efectivo</td><td class='num'>$5,266.45</td><td class='center'><span class="tag iva-no">No</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$4,965.28</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$1,173.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>02/07/2026</td><td class='desc'>CONSUMO LOCAL AJENO</td><td>Compras con tarjeta</td><td class='num'>$618.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>03/07/2026</td><td class='desc'>CARGO PAGO NOMINA POR APLICAR</td><td>Nómina</td><td class='num'>$37,110.20</td><td class='center'><span class="tag iva-no">No</span></td></tr>
+<tr><td>03/07/2026</td><td class='desc'>CONSUMO INTERNACIONAL MC</td><td>Compras con tarjeta</td><td class='num'>$10,000.00</td><td class='center'><span class="tag iva-si">Sí</span></td></tr>
+<tr><td>03/07/2026</td><td class='desc'>AJUSTE CARGO</td><td>Otros gastos</td><td class='num'>$14.93</td><td class='center'><span class="tag iva-si">Sí</span></td></tr></tbody>
+      <tfoot><tr><td colspan="3">Total Santander Egresos (20 movs)</td><td class="num">$195,606.00</td><td></td></tr></tfoot></table></div>
 
   <footer>Uso interno · No sustituye declaración fiscal oficial · Deviart SA de CV · Generado automáticamente</footer>
 </div>
-
 <script>
 const fmt = v => '$' + v.toLocaleString('es-MX',{maximumFractionDigits:0});
-function showTab(i){
-  document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
-  document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));
-}
+function showTab(i){ document.querySelectorAll('.tab-pane').forEach((p,j)=>p.classList.toggle('active',i===j));
+  document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j)); }
 const optsH = { indexAxis:'y', responsive:true, maintainAspectRatio:false,
-  plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.x)}}},
-  scales:{x:{ticks:{callback:v=>fmt(v)}}} };
-new Chart(document.getElementById('chIng'),{type:'bar',
-  data:{labels:["Shein", "Distribuidores (FDIS)", "PayPal", "Mercado Libre", "Importación/Otros (IMP)", "TikTok Shop", "Amazon", "Conekta", "Otros ingresos", "Facturación directa", "Spin by OXXO"],datasets:[{data:[1613881.14, 810396.61, 732063.33, 699870.94, 205536.08, 195129.5, 188618.26, 127292.24, 97119.95, 33052.46, 18545.16],backgroundColor:'#22c55e',borderRadius:4}]},options:optsH});
-new Chart(document.getElementById('chEgr'),{type:'bar',
-  data:{labels:["Proveedores / Pagos", "Otros gastos", "Compras con tarjeta", "Asesorías", "Renta", "Insumos / Fletes", "Combustible", "Equipo / Servicios", "Certificación / Servicios"],datasets:[{data:[2179803.79, 346604.26, 282731.64, 145000.0, 95144.81, 87451.96, 30000.0, 11020.0, 8337.0],backgroundColor:'#3b82f6',borderRadius:4}]},options:optsH});
+  plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>fmt(c.parsed.x)}}}, scales:{x:{ticks:{callback:v=>fmt(v)}}} };
+new Chart(document.getElementById('chIng'),{type:'bar',data:{labels:["PayPal", "Facturación directa", "Distribuidores (FDIS)", "Mercado Libre", "TikTok Shop", "Importación/Otros (IMP)", "Conekta", "Otros ingresos"],datasets:[{data:[45596.41, 38687.74, 15749.78, 10983.18, 8908.65, 3712.0, 3205.23, 0.01],backgroundColor:'#22c55e',borderRadius:4}]},options:optsH});
+new Chart(document.getElementById('chEgr'),{type:'bar',data:{labels:["Paquetería / Envíos", "Proveedores / Pagos", "Compras con tarjeta", "Comisiones bancarias", "Otros gastos"],datasets:[{data:[181290.53, 113853.54, 39360.87, 46.4, 14.93],backgroundColor:'#3b82f6',borderRadius:4}]},options:optsH});
 </script>
 </body>
 </html>
