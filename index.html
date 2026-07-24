@@ -33,6 +33,20 @@
   .ivabox.tras { background:linear-gradient(135deg,#16a34a,#15803d); } .ivabox.acre { background:linear-gradient(135deg,#2563eb,#1d4ed8); } .ivabox.neto { background:linear-gradient(135deg,#dc2626,#b91c1c); }
   .ivabox .l { font-size:13px; opacity:.9; } .ivabox .v { font-size:27px; font-weight:700; margin-top:6px; } .ivabox .f { font-size:11.5px; opacity:.85; margin-top:6px; }
   .iva-bank { margin-top:16px; background:#fff; border-radius:12px; padding:18px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .ivaintro { color:var(--muted); font-size:14px; margin-top:6px; }
+  .est-label { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin:16px 0 10px; }
+  .oficial { margin-top:18px; border-radius:12px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .oficial.ok { background:linear-gradient(135deg,#065f46,#047857); color:#fff; }
+  .oficial.pend { background:var(--card); border:1px dashed var(--faint); color:var(--muted); }
+  .oficial .ot { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+  .badge-ok { font-weight:700; font-size:14.5px; } .badge-pend { font-weight:700; font-size:14.5px; }
+  .oficial .src { font-size:11px; opacity:.8; font-family:ui-monospace,Menlo,monospace; }
+  .ogrid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .ogrid>div { background:rgba(255,255,255,.12); border-radius:8px; padding:11px 13px; }
+  .ogrid .ok-k { display:block; font-size:11.5px; opacity:.88; } .ogrid .ok-v { display:block; font-size:21px; font-weight:700; margin-top:3px; font-variant-numeric:tabular-nums; }
+  .ogrid .hl { background:rgba(255,255,255,.24); box-shadow:inset 0 0 0 1px rgba(255,255,255,.4); }
+  .onote { font-size:12.5px; opacity:.92; margin-top:13px; line-height:1.5; }
+  @media(max-width:680px){ .ogrid { grid-template-columns:1fr 1fr; } }
   table { width:100%; border-collapse:collapse; font-size:13px; }
   table.cons th, table.cons td { padding:8px 10px; border-bottom:1px solid #eef2f7; text-align:left; }
   table.cons th { background:#f8fafc; font-size:11.5px; text-transform:uppercase; color:#64748b; letter-spacing:.3px; }
@@ -68,7 +82,7 @@
     <div class="kpi ing"><div class="lbl">Total Ingresos</div><div class="val">$2,814,546</div><div class="meta">Operativos $2,813,676 · No grav. $870</div></div>
     <div class="kpi egr"><div class="lbl">Total Egresos</div><div class="val">$2,541,752</div><div class="meta">Operativos $2,210,810 · No grav. $330,942</div></div>
     <div class="kpi dif"><div class="lbl">Diferencia Neta</div><div class="val">$272,794</div><div class="meta">Flujo bruto ingresos − egresos</div></div>
-    <div class="kpi iva"><div class="lbl">IVA Neto Estimado</div><div class="val">$83,154</div><div class="meta">Trasladado − acreditable</div></div>
+    <div class="kpi iva"><div class="lbl">IVA Neto (estimado)</div><div class="val">$83,154</div><div class="meta">Estimado por flujo bancario</div></div>
   </div>
   <h2 class="sec">🏦 Comparativa por banco</h2>
   <div class="grid banks">
@@ -92,18 +106,18 @@
     <div class="card"><h3>Ingresos operativos por canal</h3><div class="chart-box"><canvas id="chIng"></canvas></div></div>
     <div class="card"><h3>Egresos operativos por categoría</h3><div class="chart-box"><canvas id="chEgr"></canvas></div></div>
   </div>
-  <h2 class="sec">🧾 Estimación de IVA</h2>
+  <h2 class="sec">🧾 IVA del mes</h2>
+  <p class="ivaintro">Dos números: el <b>estimado semanal</b> (por flujo bancario, indicativo) y el <b>declarado oficial</b> (del reporte del contador, al cierre). <b>El que se paga es el oficial.</b></p>
+  <div class="est-label">🟡 Estimado por flujo bancario · preliminar al 17/07/2026</div>
   <div class="grid iva-boxes">
-    <div class="ivabox tras"><div class="l">IVA Trasladado</div><div class="v">$388,093</div><div class="f">16/116 × ingresos operativos</div></div>
-    <div class="ivabox acre"><div class="l">IVA Acreditable</div><div class="v">$304,939</div><div class="f">16/116 × egresos operativos</div></div>
-    <div class="ivabox neto"><div class="l">IVA Neto Estimado</div><div class="v">$83,154</div><div class="f">Trasladado − Acreditable</div></div>
+    <div class="ivabox tras"><div class="l">IVA Trasladado</div><div class="v">$388,093</div><div class="f">16/116 × ingresos operativos (banco)</div></div>
+    <div class="ivabox acre"><div class="l">IVA Acreditable</div><div class="v">$304,939</div><div class="f">16/116 × egresos operativos (banco)</div></div>
+    <div class="ivabox neto"><div class="l">IVA Neto estimado</div><div class="v">$83,154</div><div class="f">Trasladado − Acreditable</div></div>
   </div>
-  <div class="iva-bank"><table class="cons"><thead><tr><th>Banco</th><th class="num">Base ingresos op.</th><th class="num">IVA trasladado</th><th class="num">Base egresos op.</th><th class="num">IVA acreditable</th><th class="num">IVA neto</th></tr></thead>
-    <tbody>
-      <tr><td><b>BBVA</b></td><td class="num">$1,339,386.69</td><td class="num">$184,742.99</td><td class="num">$1,665,495.23</td><td class="num">$229,723.48</td><td class="num">$-44,980.49</td></tr>
-      <tr><td><b>Santander</b></td><td class="num">$1,474,289.12</td><td class="num">$203,350.22</td><td class="num">$545,314.52</td><td class="num">$75,215.80</td><td class="num">$128,134.42</td></tr>
-      <tr style="font-weight:700;background:#fef2f2;"><td>TOTAL</td><td class="num">$2,813,675.81</td><td class="num">$388,093.22</td><td class="num">$2,210,809.75</td><td class="num">$304,939.28</td><td class="num">$83,153.94</td></tr>
-    </tbody></table></div>
+  <div class="oficial pend">
+      <div class="ot"><span class="badge-pend">⏳ Declarado — oficial</span></div>
+      <div class="onote">Pendiente del cierre del mes. Se carga solo del reporte del contador cuando el archivo «PAGO PROVISIONAL JULIO 2026.xlsx» esté en la carpeta — entonces aquí aparece el IVA real a declarar, al peso.</div>
+    </div>
   <h2 class="sec">⚠️ Partidas a revisar con el contador</h2>
   <div class="alerts"><div class="alert"><span class="ic">🏛️</span><div><b>Aportaciones / Línea de captura $139,768</b> (egreso): partida <b>no gravable</b>, fuera de la base de IVA. Pago a gobierno vía línea de captura (IMSS/INFONAVIT/SAT); sin IVA acreditable. Confirmar naturaleza con el contador.</div></div>
 <div class="alert"><span class="ic">🧾</span><div><b>Cheque en efectivo $25,237</b> (egreso): partida <b>no gravable</b>, fuera de la base de IVA.</div></div>
